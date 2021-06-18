@@ -1,9 +1,8 @@
-Ever since the implementation of the `undo --window` command in qutebrowser, I
-have been using the `tabs.tabs_are_windows` option and relying on i3's tabbed
-layout to provide tabbing. The main advantages of this setup are that tabs can
-be moved freely to different workspaces or put side-by-side, without having to
-reload them (such as with `tab-give`). And the tabs can be mixed with other
-applications such as a PDF-reader.
+This repository documents my setup for qutebrowser and i3 that combines qb's
+`tabs.tabs_are_windows` option with i3's tabbed layout. The main advantages of
+this setup are that tabs can be moved freely to different workspaces or put
+side-by-side, without having to reload them (such as with `tab-give`). And the
+tabs can be mixed with other applications such as a PDF-reader.
 
 On the other hand, `tabs_are_windows` has several shortcomings, many of which I
 have circumvented with some more or less hacky solutions:
@@ -23,7 +22,7 @@ have circumvented with some more or less hacky solutions:
 
 2. **Closing the last tab**: To simulate the setting `tabs.last_close =
    'default-page'`, which keeps a qb window open when the last tab is closed, I
-   use the userscript `tab-close` (requries
+   use the userscript `tab-close` in this repo (requires
    [jq](https://github.com/stedolan/jq)). It's not perfect though, especially
    with respect to `undo`.
 
@@ -37,11 +36,11 @@ have circumvented with some more or less hacky solutions:
 
         no_focus [window_role="^qutebrowser_background$"]
 
-   Instead of patching qb directly, I added an (even worse) monkey patch to
+   Instead of patching qb directly, I added a horrible monkey patch to
    `config.py`.
 
 4. **Tabbing new windows**: I use an i3 workspace layout and a custom desktop
-   file to always open new qb windows in a tabbed layout, but only if the
+   file to open new qb windows in a tabbed layout, but only if the
    current workspace is empty. See the script, layout and desktop file
    `qutebrowser-layout.*` (requires jq).
 
