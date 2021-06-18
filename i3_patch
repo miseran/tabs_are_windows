@@ -1,0 +1,56 @@
+diff --git a/src/con.c b/src/con.c
+index 1380947a..2aebdd14 100644
+--- a/src/con.c
++++ b/src/con.c
+@@ -1756,10 +1756,10 @@ int con_border_style(Con *con) {
+     }
+ 
+     if (con->parent->layout == L_STACKED)
+-        return (con_num_children(con->parent) == 1 ? con->border_style : BS_NORMAL);
++        return con->border_style;
+ 
+     if (con->parent->layout == L_TABBED && con->border_style != BS_NORMAL)
+-        return (con_num_children(con->parent) == 1 ? con->border_style : BS_NORMAL);
++        return (con_num_children(con->parent) == 1 && con->parent->type == CT_WORKSPACE ? con->border_style : BS_NORMAL);
+ 
+     if (con->parent->type == CT_DOCKAREA)
+         return BS_NONE;
+diff --git a/src/render.c b/src/render.c
+index 072daeb3..41c88a62 100644
+--- a/src/render.c
++++ b/src/render.c
+@@ -176,7 +176,7 @@ void render_con(Con *con, bool already_inset) {
+                 render_con(child, true);
+             }
+ 
+-            if (params.children != 1)
++            if (params.children != 0)
+                 /* Raise the stack con itself. This will put the stack
+                  * decoration on top of every stack window. That way, when a
+                  * new window is opened in the stack, the old window will not
+@@ -430,14 +430,9 @@ static void render_con_stacked(Con *con, Con *child, render_params *p, int i) {
+     child->rect.height = p->rect.height;
+ 
+     child->deco_rect.x = p->x - con->rect.x;
+-    child->deco_rect.y = p->y - con->rect.y + (i * p->deco_height);
++    child->deco_rect.y = p->y - con->rect.y;
+     child->deco_rect.width = child->rect.width;
+-    child->deco_rect.height = p->deco_height;
+-
+-    if (p->children > 1 || (child->border_style != BS_PIXEL && child->border_style != BS_NONE)) {
+-        child->rect.y += (p->deco_height * p->children);
+-        child->rect.height -= (p->deco_height * p->children);
+-    }
++    child->deco_rect.height = 0;
+ }
+ 
+ static void render_con_tabbed(Con *con, Con *child, render_params *p, int i) {
+@@ -458,7 +453,7 @@ static void render_con_tabbed(Con *con, Con *child, render_params *p, int i) {
+         child->deco_rect.width = child->rect.width - child->deco_rect.x;
+     }
+ 
+-    if (p->children > 1 || (child->border_style != BS_PIXEL && child->border_style != BS_NONE)) {
++    if (p->children > 1 || con->type != CT_WORKSPACE || (child->border_style != BS_PIXEL && child->border_style != BS_NONE)) {
+         child->rect.y += p->deco_height;
+         child->rect.height -= p->deco_height;
+         child->deco_rect.height = p->deco_height;

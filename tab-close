@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Close the window if it is not a single child, else open about:blank.
+if i3-msg -t get_tree \
+	| jq -e '[recurse(.nodes[]) | (.nodes | length) == 1 and (.layout | contains("split") | not) and .nodes[].focused] | any' >/dev/null
+then
+	echo "open about:blank" > "$QUTE_FIFO"
+else
+	echo "close" > "$QUTE_FIFO"
+	# Remove these files, since the window dies before it can do so.
+	rm "$QUTE_TEXT" "$QUTE_HTML"
+fi
+

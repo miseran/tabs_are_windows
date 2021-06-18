@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Qutebrowser Layout
+Comment=A keyboard-driven, vim-like browser based on PyQt5
+Exec=/path/to/qutebrowser-layout.sh %F
+Icon=qutebrowser
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=x-scheme-handler/steam;
+Actions=Store;Community;Library;Servers;Screenshots;News;Settings;BigPicture;Friends;

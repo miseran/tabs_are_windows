@@ -1,0 +1,10 @@
+# Show favicon in i3 tab bar.
+# Requires a bleeding edge build.
+for_window [class=".*"] title_window_icon on
+for_window [class=".*"] title_window_icon padding 2
+
+# Close tab on middle click.
+bindsym button2 kill
+
+# background qutebrowser windows
+no_focus [window_role="^qutebrowser_background$"]
