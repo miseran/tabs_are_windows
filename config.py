@@ -2,6 +2,7 @@ c.tabs.show = 'never'
 c.tabs.tabs_are_windows = True
 c.window.title_format = '{private}{perc}{current_title}'
 
+config.load_autoconfig()
 config.bind('q', 'spawn --userscript tab-close')
 config.bind('u', 'undo --window')
 config.bind(']', 'spawn ~/.local/share/i3/window-tool tab-focus next')
